@@ -30,10 +30,14 @@ int integerPart(int n){
 double floatPart(int n, int precision, int temp){
     double factor = 0.1,ans = temp;
     double start = temp, end = start + 1,mid;
+    int rfactor = 10;
     for(int i = 1;i<=precision;i++){
         while(start<=end){
             mid = start + (end - start)/2;
+            mid = floor(mid*rfactor)/rfactor;
             double square = mid*mid;
+            cout<<"before"<<endl;
+            cout<<factor<<" "<<rfactor<<" "<<start<<" "<<end<<" "<<mid<<" "<<square<<"\n";
             if(square == double(n)){
                 return mid;
             }
@@ -44,8 +48,11 @@ double floatPart(int n, int precision, int temp){
                 ans = mid;
                 start = mid+factor;
             }
+            cout<<"after"<<endl;
+            cout<<factor<<" "<<rfactor<<" "<<start<<" "<<end<<" "<<mid<<" "<<square<<"\n";
         }
         factor = factor/10;
+        rfactor = rfactor*10;
         start = ans;
         end = start + factor*10;
     }
@@ -54,11 +61,13 @@ double floatPart(int n, int precision, int temp){
 
 int main()
 {
-    int n;
+    int n,precision;
     cout << "Enter a number : ";
     cin >> n;
+    cout << "Enter the precision : ";
+    cin >> precision;
     int intPart = integerPart(n);
-    double ans = floatPart(n,5,intPart);
-    cout<<"ANS : "<<ans<<"\n";
+    double ans = floatPart(n,precision,intPart);
+    cout<<"ANS : "<<ans<<setprecision(precision)<<"\n";
     return 0;
 }
